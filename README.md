@@ -45,13 +45,15 @@ The `--sandbox` flag verifies the build works without network access.
 If you don't have Flatpak set up on the host, you can run the build in a Fedora container:
 
 ```sh
-docker run --rm --privileged -v "$PWD":/src -w /src fedora:latest bash -c '
+docker run --rm --privileged -v "$PWD":/src -w /src fedora:41 bash -c '
   dnf install -y flatpak flatpak-builder &&
   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
   flatpak --user install -y flathub org.freedesktop.Platform//24.08 org.freedesktop.Sdk//24.08 &&
   flatpak-builder --repo=repo --force-clean --sandbox --user build fr.emersion.goguma.yml
 '
 ```
+
+`--privileged` is required because flatpak-builder's `--sandbox` uses bubblewrap/user namespaces.
 
 </details>
 
