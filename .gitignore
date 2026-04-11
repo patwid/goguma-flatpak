@@ -3,3 +3,6 @@ build/
 repo/
 generated/
 fr.emersion.goguma.yml
+
+# Nix
+.direnv/
