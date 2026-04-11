@@ -2,8 +2,6 @@ app-id: fr.emersion.goguma
 runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
-sdk-extensions:
-  - org.freedesktop.Sdk.Extension.llvm18
 command: goguma
 
 finish-args:
@@ -18,6 +16,10 @@ modules:
   - name: goguma
     buildsystem: simple
     build-options:
+      append-path: /var/lib/flutter/bin
+      env:
+        CC: gcc
+        CXX: g++
       arch:
         aarch64:
           env:
@@ -26,6 +28,19 @@ modules:
           env:
             BUNDLE_PATH: build/linux/x64/release/bundle
     build-commands:
+      - |
+        for cache_dir in .pub-cache/git/cache/*/; do
+          [ -d "$cache_dir" ] || continue
+          pkg_name=$(basename "$cache_dir" | sed 's/-[a-f0-9]*$//')
+          local_clone=$(find .pub-cache/git -maxdepth 1 -type d -name "${pkg_name}-*" ! -path "*/cache/*" | head -1)
+          if [ -n "$local_clone" ]; then
+            git --git-dir="$cache_dir" remote set-url origin "$PWD/$local_clone"
+          fi
+        done
+      - setup-flutter.sh
+      - |
+        { echo 'set(CMAKE_C_COMPILER "gcc")'; echo 'set(CMAKE_CXX_COMPILER "g++")'; cat linux/CMakeLists.txt; } > linux/CMakeLists.txt.new
+        mv linux/CMakeLists.txt.new linux/CMakeLists.txt
       - flutter build linux --release --no-pub
       - cp -r ${BUNDLE_PATH}/* /app/
       - mkdir -p /app/bin
