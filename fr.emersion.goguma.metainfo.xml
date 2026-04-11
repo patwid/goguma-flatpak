@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>fr.emersion.goguma</id>
+  <name>Goguma</name>
+  <summary>IRC client for mobile devices</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="fr.emersion">
+    <name>Simon Ser</name>
+  </developer>
+  <description>
+    <p>
+      Goguma is an IRC client for mobile devices. It supports IRCv3 extensions
+      such as chathistory, read markers, and push notifications via soju.
+    </p>
+  </description>
+  <url type="homepage">https://codeberg.org/emersion/goguma</url>
+  <url type="bugtracker">https://codeberg.org/emersion/goguma/issues</url>
+  <url type="vcs-browser">https://codeberg.org/emersion/goguma</url>
+  <launchable type="desktop-id">fr.emersion.goguma.desktop</launchable>
+  <provides>
+    <binary>goguma</binary>
+  </provides>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+  </content_rating>
+  <releases>
+    <release version="0.8.0" date="2024-06-14"/>
+  </releases>
+</component>
