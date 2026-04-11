@@ -24,6 +24,24 @@
   <content_rating type="oars-1.1">
     <content_attribute id="social-chat">intense</content_attribute>
   </content_rating>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://fs.emersion.fr/protected/img/goguma/main.png</image>
+      <caption>Conversation list</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://fs.emersion.fr/protected/img/goguma/conversation.png</image>
+      <caption>Conversation view</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://fs.emersion.fr/protected/img/goguma/conversation-details.png</image>
+      <caption>Conversation details</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://fs.emersion.fr/protected/img/goguma/main-dark.png</image>
+      <caption>Conversation list in dark mode</caption>
+    </screenshot>
+  </screenshots>
   <releases>
     <release version="0.8.0" date="2024-06-14"/>
   </releases>
