@@ -24,7 +24,7 @@ docker run --rm -v "$PWD":/usr/src/flatpak \
 This produces:
 
 - `fr.emersion.goguma.yml` — the final build manifest
-- `generated/modules/flutter-sdk-3.35.7.json` — Flutter SDK module with engine binaries and fonts
+- `generated/modules/flutter-sdk-3.41.6.json` — Flutter SDK module with engine binaries and fonts
 - `generated/sources/pubspec.json` — all pub packages as offline source entries
 
 ### 2. Build with flatpak-builder
