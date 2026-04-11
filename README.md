@@ -8,10 +8,7 @@ Uses [flatpak-flutter](https://github.com/TheAppgineer/flatpak-flutter) to vendo
 
 - [flatpak-builder](https://docs.flatpak.org/en/latest/flatpak-builder.html)
 - [Docker](https://www.docker.com/) (recommended) or Python 3.9+ with `packaging`, `pyyaml`, `tomlkit`
-- Flathub remote configured:
-  ```sh
-  flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-  ```
+- Flatpak with the Flathub remote configured (see [NixOS notes](#nixos) below)
 
 ## Build Instructions
 
@@ -40,20 +37,48 @@ This produces:
 - `generated/modules/flutter-sdk-3.29.3.json` — Flutter SDK module with engine binaries and fonts
 - `generated/sources/pubspec.json` — all pub packages as offline source entries
 
-### 2. Build with flatpak-builder
+### 2. Install the Flatpak runtime and SDK
+
+```sh
+flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak --user install flathub org.freedesktop.Platform//24.08 org.freedesktop.Sdk//24.08 org.freedesktop.Sdk.Extension.llvm18//24.08
+```
+
+### 3. Build with flatpak-builder
 
 ```sh
 flatpak-builder --repo=repo --force-clean --sandbox --user --install \
-  --install-deps-from=flathub build fr.emersion.goguma.yml
+  build fr.emersion.goguma.yml
 ```
 
 The `--sandbox` flag verifies the build works without network access.
 
-### 3. Run
+### 4. Run
 
 ```sh
 flatpak run fr.emersion.goguma
 ```
+
+## NixOS
+
+On NixOS, having `flatpak` in a devshell is not sufficient — the Flatpak D-Bus system
+helper must be registered, which requires enabling the NixOS module.
+
+Add the following to your NixOS configuration (e.g. `configuration.nix`):
+
+```nix
+services.flatpak.enable = true;
+xdg.portal.enable = true;
+```
+
+Then rebuild:
+
+```sh
+sudo nixos-rebuild switch
+```
+
+After that, the `flatpak` commands above will work. The devshell flake can still
+provide `flatpak-builder` and other build tooling.
 
 ## Patches
 
