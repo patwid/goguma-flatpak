@@ -42,6 +42,10 @@
       <caption>Conversation list in dark mode</caption>
     </screenshot>
   </screenshots>
+  <branding>
+    <color type="primary" scheme_preference="light">#a8d8ea</color>
+    <color type="primary" scheme_preference="dark">#1a535c</color>
+  </branding>
   <releases>
     <release version="0.9.1" date="2026-01-22"/>
     <release version="0.8.0" date="2024-06-14"/>
