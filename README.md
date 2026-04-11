@@ -18,7 +18,7 @@ and generates a final manifest with every dependency vendored for offline builds
 ```sh
 docker run --rm -v "$PWD":/usr/src/flatpak \
   -u $(id -u):$(id -g) \
-  theappgineer/flatpak-flutter:latest flatpak-flutter.yml
+  theappgineer/flatpak-flutter:0.14.1 flatpak-flutter.yml
 ```
 
 This produces:
