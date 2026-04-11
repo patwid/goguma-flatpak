@@ -64,7 +64,7 @@ modules:
     sources:
       - type: git
         url: https://codeberg.org/emersion/goguma.git
-        tag: v0.8.0
+        tag: v0.9.1
       - type: patch
         path: disable-titlebar.patch
       - type: file
@@ -73,5 +73,5 @@ modules:
         path: fr.emersion.goguma.metainfo.xml
       - type: git
         url: https://github.com/flutter/flutter.git
-        tag: 3.29.3
+        tag: 3.35.7
         dest: flutter
