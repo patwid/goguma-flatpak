@@ -67,8 +67,6 @@ modules:
         url: https://codeberg.org/emersion/goguma.git
         tag: v0.9.1
         commit: 500ba75cf167afa37be69516e7ae50985c8342c0
-      - type: patch
-        path: disable-titlebar.patch
       - type: file
         path: fr.emersion.goguma.desktop
       - type: file

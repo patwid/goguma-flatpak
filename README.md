@@ -81,16 +81,10 @@ display socket explicitly:
 flatpak-builder --run --share=ipc --socket=wayland --env=WAYLAND_DISPLAY=$WAYLAND_DISPLAY --env=XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR build fr.emersion.goguma.yml goguma
 ```
 
-## Patches
-
-- **disable-titlebar.patch** — Removes the GTK header bar and disables window decorations,
-  making the app more suitable for mobile form factors (from Alpine aports).
-
 ## Files
 
 | File | Purpose |
 |------|---------|
 | `flatpak-flutter.yml` | Input manifest for flatpak-flutter pre-processing |
-| `disable-titlebar.patch` | Disables titlebar for mobile form factor |
 | `fr.emersion.goguma.desktop` | Desktop entry |
 | `fr.emersion.goguma.metainfo.xml` | AppStream metainfo (required for Flathub) |
