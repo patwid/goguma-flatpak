@@ -6,7 +6,8 @@ Uses [flatpak-flutter](https://github.com/TheAppgineer/flatpak-flutter) to vendo
 
 ## Prerequisites
 
-- [Docker](https://www.docker.com/) or [Flatpak + flatpak-builder](https://docs.flatpak.org/en/latest/flatpak-builder.html)
+- [Docker](https://www.docker.com/)
+- [Flatpak + flatpak-builder](https://docs.flatpak.org/en/latest/flatpak-builder.html)
 
 ## Build Instructions
 
@@ -34,28 +35,10 @@ Install the Flatpak runtime and SDK, then build:
 ```sh
 flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak --user install -y flathub org.freedesktop.Platform//25.08 org.freedesktop.Sdk//25.08
-flatpak-builder --repo=repo --force-clean --sandbox --user build fr.emersion.goguma.yml
+flatpak-builder --repo=repo --force-clean --sandbox --user --install-deps-from=flathub build fr.emersion.goguma.yml
 ```
 
 The `--sandbox` flag verifies the build works without network access.
-
-<details>
-<summary>Using Docker instead of host flatpak-builder</summary>
-
-If you don't have Flatpak set up on the host, you can run the build in a Fedora container:
-
-```sh
-docker run --rm --privileged -v "$PWD":/src -w /src fedora:43 bash -c '
-  dnf install -y flatpak flatpak-builder &&
-  flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
-  flatpak --user install -y flathub org.freedesktop.Platform//25.08 org.freedesktop.Sdk//25.08 &&
-  flatpak-builder --repo=repo --force-clean --sandbox --user build fr.emersion.goguma.yml
-'
-```
-
-`--privileged` is required because flatpak-builder's `--sandbox` uses bubblewrap/user namespaces.
-
-</details>
 
 ### 3. Run
 
@@ -83,9 +66,20 @@ services.flatpak.enable = true;
 xdg.portal.enable = true;
 ```
 
-Then rebuild (`sudo nixos-rebuild switch`) and the commands in step 2 and 3 will work.
+Then rebuild (`sudo nixos-rebuild switch`) and the commands in step 2 will work, with one
+caveat: `--repo=repo` fails with `mkdirat: Permission denied` due to NixOS bubblewrap
+restrictions. Use `--build-only` to skip the repo export:
 
-Alternatively, use the Docker approach above which requires no host Flatpak configuration.
+```sh
+flatpak-builder --force-clean --sandbox --user --install-deps-from=flathub --build-only build fr.emersion.goguma.yml
+```
+
+To run the app, `flatpak-builder --run` doesn't apply `finish-args`, so pass the
+display socket explicitly:
+
+```sh
+flatpak-builder --run --share=ipc --socket=wayland --env=WAYLAND_DISPLAY=$WAYLAND_DISPLAY --env=XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR build fr.emersion.goguma.yml goguma
+```
 
 ## Patches
 

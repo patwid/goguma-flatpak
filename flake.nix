@@ -34,7 +34,11 @@
       {
         devShells = {
           default = pkgs.mkShellNoCC {
-            buildInputs = with pkgs; [ flatpak-builder ];
+            buildInputs = with pkgs; [
+              flatpak-builder
+              appstream
+              desktop-file-utils
+            ];
           };
         };
 
