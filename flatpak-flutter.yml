@@ -13,6 +13,13 @@ finish-args:
   - --talk-name=org.freedesktop.Notifications
 
 modules:
+  - name: sqlite3
+    buildsystem: autotools
+    sources:
+      - type: archive
+        url: https://www.sqlite.org/2025/sqlite-autoconf-3490100.tar.gz
+        sha256: 106642d8ccb36c5f7323b64e4152e9b719f7c0215acf5bfeac3d5e7f97b59254
+
   - name: goguma
     buildsystem: simple
     build-options:
@@ -55,7 +62,6 @@ modules:
         cat linux/CMakeLists.txt; } > linux/CMakeLists.txt.tmp
         mv linux/CMakeLists.txt.tmp linux/CMakeLists.txt
       - flutter build linux --release --no-pub
-      - mkdir -p /app/lib && ln -s libsqlite3.so.0 /app/lib/libsqlite3.so
       - cp -r ${BUNDLE_PATH}/* /app/
       - mkdir -p /app/bin
       - ln -s /app/goguma /app/bin/goguma
