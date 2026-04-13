@@ -34,12 +34,13 @@ modules:
     build-commands:
       # Redirect pub git cache bare repos to local clones so that
       # "flutter pub get --offline" doesn't try to fetch from the network.
-      # Cache dir names follow the pattern "<pkg>-<hex hash>"; the sed strips
+      # Cache dir names follow the pattern "<pkg>-<hex hash>"; strip
       # the trailing hash to recover the package name for matching.
       - |
         for cache_dir in .pub-cache/git/cache/*/; do
           [ -d "$cache_dir" ] || continue
-          pkg_name=$(basename "$cache_dir" | sed 's/-[a-f0-9]*$//')
+          pkg_name=$(basename "$cache_dir")
+          pkg_name=${pkg_name%-*}
           local_clone=$(find .pub-cache/git -maxdepth 1 -type d -name "${pkg_name}-*" ! -path "*/cache/*" | head -1)
           if [ -n "$local_clone" ]; then
             git --git-dir="$cache_dir" remote set-url origin "$PWD/$local_clone"
@@ -50,7 +51,9 @@ modules:
       - setup-flutter.sh
       # Force gcc in CMake — Flutter's CMake build ignores CC/CXX env vars
       - |
-        sed -i '1i set(CMAKE_C_COMPILER "gcc")\nset(CMAKE_CXX_COMPILER "g++")' linux/CMakeLists.txt
+        { printf 'set(CMAKE_C_COMPILER "gcc")\nset(CMAKE_CXX_COMPILER "g++")\n'
+        cat linux/CMakeLists.txt; } > linux/CMakeLists.txt.tmp
+        mv linux/CMakeLists.txt.tmp linux/CMakeLists.txt
       - flutter build linux --release --no-pub
       - cp -r ${BUNDLE_PATH}/* /app/
       - mkdir -p /app/bin
