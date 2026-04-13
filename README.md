@@ -33,7 +33,7 @@ Install the Flatpak runtime and SDK, then build:
 
 ```sh
 flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak --user install -y flathub org.freedesktop.Platform//24.08 org.freedesktop.Sdk//24.08
+flatpak --user install -y flathub org.freedesktop.Platform//25.08 org.freedesktop.Sdk//25.08
 flatpak-builder --repo=repo --force-clean --sandbox --user build fr.emersion.goguma.yml
 ```
 
@@ -48,7 +48,7 @@ If you don't have Flatpak set up on the host, you can run the build in a Fedora 
 docker run --rm --privileged -v "$PWD":/src -w /src fedora:43 bash -c '
   dnf install -y flatpak flatpak-builder &&
   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo &&
-  flatpak --user install -y flathub org.freedesktop.Platform//24.08 org.freedesktop.Sdk//24.08 &&
+  flatpak --user install -y flathub org.freedesktop.Platform//25.08 org.freedesktop.Sdk//25.08 &&
   flatpak-builder --repo=repo --force-clean --sandbox --user build fr.emersion.goguma.yml
 '
 ```

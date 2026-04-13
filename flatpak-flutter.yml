@@ -1,6 +1,6 @@
 app-id: fr.emersion.goguma
 runtime: org.freedesktop.Platform
-runtime-version: '24.08'
+runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 command: goguma
 
@@ -17,7 +17,7 @@ modules:
     buildsystem: simple
     build-options:
       append-path: /var/lib/flutter/bin
-      # Force gcc — Freedesktop SDK 24.08 defaults to clang, but the LLVM
+      # Force gcc — Freedesktop SDK 25.08 defaults to clang, but the LLVM
       # extension binaries aren't on PATH. The env vars cover most build systems;
       # the CMakeLists.txt injection below covers Flutter's CMake build which
       # may ignore CC/CXX. Both are needed until Flutter respects these env vars.
